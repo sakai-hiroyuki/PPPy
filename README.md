@@ -3,12 +3,12 @@
 ## Usage
 ### Example
 ```
-python3 pp.py --path sample.py
+python3 pp.py --path sample.csv
 ```
 
 ### Parameters
 ```
-python3 pp.py --path sample.py --stop 5 --stop 1e-2
+python3 pp.py --path sample.csv --stop 5 --stop 1e-2
 ```
 
 ## References
