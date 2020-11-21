@@ -13,13 +13,16 @@ if __name__ == "__main__":
     parser.add_argument('--path', type=str, default='sample.csv')
     parser.add_argument('--stop', type=float, default=5.)
     parser.add_argument('--step', type=float, default=1e-2)
+    parser.add_argument('--ext', type=str, default='pdf')
 
     args = parser.parse_args()
     path = args.path
     stop = args.stop
     step = args.step
+    ext = args.ext
 
-    df = pd.read_csv(path, header=None)
+    df = pd.read_csv(path)
+    solvers = df.columns.values.tolist()
 
     data = df.values
     Np = data.shape[0]  # number of probems
@@ -34,7 +37,7 @@ if __name__ == "__main__":
         x = np.arange(1, stop, step)
         for v in x:
             y.append(pp(v, i))
-        plt.plot(x, y, label=f'solver{i}')
+        plt.plot(x, y, label=solvers[i])
 
     plt.legend()
-    plt.show()
+    plt.savefig(f'result.{ext}')
