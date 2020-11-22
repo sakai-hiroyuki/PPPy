@@ -1,4 +1,5 @@
 # PPPy
+An implementation of the **P**erformance **P**rofile in **Py**thon.
 
 ## Usage
 ### Example
