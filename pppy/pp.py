@@ -1,7 +1,10 @@
+import os
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 from argparse import ArgumentParser
+from time import time
+from math import floor
 
 
 def pp(tau: float, solver: int) -> float:
@@ -14,12 +17,14 @@ if __name__ == "__main__":
     parser.add_argument('--stop', type=float, default=5.)
     parser.add_argument('--step', type=float, default=1e-2)
     parser.add_argument('--ext', type=str, default='pdf')
+    parser.add_argument('--rd', type=str, default='.')
 
     args = parser.parse_args()
     path = args.path
     stop = args.stop
     step = args.step
     ext = args.ext
+    result_dir = args.rd
 
     df = pd.read_csv(path)
     solvers = df.columns.values.tolist()
@@ -40,4 +45,6 @@ if __name__ == "__main__":
         plt.plot(x, y, label=solvers[i])
 
     plt.legend()
-    plt.savefig(f'result.{ext}')
+    
+    ut = floor(time())
+    plt.savefig(os.path.join(result_dir, f'result{ut}.{ext}'))
