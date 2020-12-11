@@ -14,10 +14,11 @@ def pp(tau: float, solver: int) -> float:
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--path', type=str, default='sample.csv')
-    parser.add_argument('--stop', type=float, default=5.)
+    parser.add_argument('--stop', type=float, default=8.)
     parser.add_argument('--step', type=float, default=1e-2)
     parser.add_argument('--ext', type=str, default='pdf')
     parser.add_argument('--rd', type=str, default='.')
+    parser.add_argument('--no_grid', action='store_false')
 
     args = parser.parse_args()
     path = args.path
@@ -25,6 +26,7 @@ if __name__ == "__main__":
     step = args.step
     ext = args.ext
     result_dir = args.rd
+    no_grid = args.no_grid
 
     df = pd.read_csv(path)
     solvers = df.columns.values.tolist()
@@ -43,8 +45,15 @@ if __name__ == "__main__":
         for v in x:
             y.append(pp(v, i))
         plt.plot(x, y, label=solvers[i])
-
-    plt.legend()
     
+    plt.xlim(1, stop)
+    plt.legend()
+    if not no_grid:
+        plt.no_grid()
+
+    plt.show()
+
+    '''
     ut = floor(time())
     plt.savefig(os.path.join(result_dir, f'result{ut}.{ext}'))
+    '''
