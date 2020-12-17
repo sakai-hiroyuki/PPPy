@@ -1,10 +1,12 @@
 import os
+import re
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 from argparse import ArgumentParser
-from time import time
 from math import floor
+
+from utils import header_decomposition
 
 
 def pp(tau: float, solver: int) -> float:
@@ -13,23 +15,21 @@ def pp(tau: float, solver: int) -> float:
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument('--path', type=str, default='sample.csv')
+    parser.add_argument('--path', type=str)
     parser.add_argument('--stop', type=float, default=8.)
     parser.add_argument('--step', type=float, default=1e-2)
-    parser.add_argument('--ext', type=str, default='pdf')
-    parser.add_argument('--rd', type=str, default='.')
+    parser.add_argument('--tau', type=str, default=None)
     parser.add_argument('--no_grid', action='store_false')
 
     args = parser.parse_args()
     path = args.path
     stop = args.stop
     step = args.step
-    ext = args.ext
-    result_dir = args.rd
+    tau = args.tau
     no_grid = args.no_grid
 
     df = pd.read_csv(path)
-    solvers = df.columns.values.tolist()
+    headers = df.columns.values.tolist()
 
     data = df.values
     Np = data.shape[0]  # number of probems
@@ -44,16 +44,17 @@ if __name__ == "__main__":
         x = np.arange(1, stop, step)
         for v in x:
             y.append(pp(v, i))
-        plt.plot(x, y, label=solvers[i])
+        
+        plt.plot(x, y, **header_decomposition(headers[i]))
     
     plt.xlim(1, stop)
-    plt.legend()
-    if not no_grid:
-        plt.no_grid()
+    if tau is None:
+        plt.xlabel(r'$\tau$')
+    else:
+        plt.xlabel(r'$\tau$' + f' ({tau})')
+    plt.ylabel(r'$P_s(\tau)$')
+    plt.legend(loc='lower right')
+    if no_grid:
+        plt.grid()
 
     plt.show()
-
-    '''
-    ut = floor(time())
-    plt.savefig(os.path.join(result_dir, f'result{ut}.{ext}'))
-    '''
