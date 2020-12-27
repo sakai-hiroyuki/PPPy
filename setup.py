@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 
 setup(
-    name='PPPy',
+    name='pppy',
     version="0.0.1",
     description='An implementation of the Performance Profile in Python.',
     long_description=long_description,
