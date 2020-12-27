@@ -2,14 +2,16 @@
 An implementation of the **P**erformance **P**rofile in **Py**thon.
 
 ## Usage
-### Example
+### Installation
 ```
-python3 pp.py --path XXXX.csv
+pip3 install git+https://github.com/sakai-hiroyuki/PPPy.git
 ```
 
-### Parameters
 ```
-python3 pp.py --path XXXX.csv --stop 5 --stop 1e-2
+from pppy import performance_profile
+
+
+performance_profile('XXX.csv')
 ```
 
 ## References
