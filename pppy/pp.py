@@ -10,6 +10,8 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
     df = pd.read_csv(path)
     header = df.columns.values.tolist()
     data = df.values
+    if np.min(data) <= 0.:
+        raise ValueError('All values ​​in the data must be positive.')
     num_p, num_s = data.shape
     r = data.T / np.min(data, axis=1)
 
