@@ -3,23 +3,17 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 
-from pppy.utils import name_decomposition
+from pppy.utils import header_decomposition
 
 
 def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=None, grid: bool=True) -> None:
     df = pd.read_csv(path)
     header = df.columns.values.tolist()
-
-    line_info = []
-    for name in header:
-        line_info.append(name_decomposition(name))
-
     data = df.values
-    num_p = data.shape[0]  # number of probems
-    num_s = data.shape[1]  # number of solvers
+    num_p, num_s = data.shape
+    r = data.T / np.min(data, axis=1)
 
-    m = np.min(data, axis=1)
-    r = data.T / m
+    info = header_decomposition(header)
 
     def _pp(tau: float, index: int) -> float:
         return np.count_nonzero(r[index] <= tau) / num_p
@@ -30,9 +24,15 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
         x = np.arange(1, stop, step)
         for val in x:
             _temp.append(_pp(val, idx))
-        
         pp.append(_temp)
-        plt.plot(x, _temp, **line_info[idx])
+    
+    _plot(pp, info, stop, step, tau, grid)
+
+
+def _plot(pp, info, stop, step, tau, grid):
+    x = np.arange(1, stop, step)
+    for idx, y in enumerate(pp):
+        plt.plot(x, y, **info[idx])
     
     plt.xlim(1, stop)
     if tau is None:
@@ -45,5 +45,3 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
         plt.grid()
 
     plt.show()
-
-    return pp
