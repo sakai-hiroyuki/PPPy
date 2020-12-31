@@ -3,31 +3,36 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 
-from pppy.utils import header_decomposition
+from pppy.utils import name_decomposition
 
 
 def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=None, grid: bool=True) -> None:
     df = pd.read_csv(path)
-    headers = df.columns.values.tolist()
+    header = df.columns.values.tolist()
+
+    line_info = []
+    for name in header:
+        line_info.append(name_decomposition(name))
 
     data = df.values
-    Np = data.shape[0]  # number of probems
-    Ns = data.shape[1]  # number of solvers
+    num_p = data.shape[0]  # number of probems
+    num_s = data.shape[1]  # number of solvers
 
     m = np.min(data, axis=1)
-
     r = data.T / m
 
-    def _pp(tau: float, solver: int) -> float:
-        return np.count_nonzero(r[solver] <= tau) / Np
-
-    for i in range(Ns):
-        y = []
+    def _pp(tau: float, index: int) -> float:
+        return np.count_nonzero(r[index] <= tau) / num_p
+    
+    pp = []
+    for idx in range(num_s):
+        _temp = []
         x = np.arange(1, stop, step)
-        for v in x:
-            y.append(_pp(v, i))
+        for val in x:
+            _temp.append(_pp(val, idx))
         
-        plt.plot(x, y, **header_decomposition(headers[i]))
+        pp.append(_temp)
+        plt.plot(x, _temp, **line_info[idx])
     
     plt.xlim(1, stop)
     if tau is None:
@@ -40,3 +45,5 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
         plt.grid()
 
     plt.show()
+
+    return pp

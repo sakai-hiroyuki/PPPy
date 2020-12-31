@@ -1,1 +1,1 @@
-from .header import header_decomposition
+from .header import name_decomposition

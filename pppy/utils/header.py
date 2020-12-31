@@ -1,7 +1,7 @@
 import re
 
 
-def header_decomposition(name: str):
+def name_decomposition(name: str):
     d = dict()
     label = re.findall('\A[^<]+', name)[0]
     d['label'] = label
