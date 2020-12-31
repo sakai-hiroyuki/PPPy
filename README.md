@@ -3,7 +3,7 @@ An implementation of the **P**erformance **P**rofile in **Py**thon.
 
 ## Installation
 ```
-pip3 install git+https://github.com/sakai-hiroyuki/PPPy.git
+pip install git+https://github.com/sakai-hiroyuki/PPPy.git
 ```
 
 ## Usage
