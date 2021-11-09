@@ -3,7 +3,7 @@ from typing import List
 
 
 def header_decomposition(header: List[str]) -> List[dict]:
-    info = []
+    info : List[dict] = []
     for name in header:
         d = dict()
         label = re.findall('\A[^<]+', name)[0]
