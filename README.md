@@ -6,7 +6,7 @@ An implementation of the **P**erformance **P**rofile in **Py**thon.
 pip install git+https://github.com/sakai-hiroyuki/PPPy.git
 ```
 
-## dependencies
+## Dependencies
 - [NumPy](https://numpy.org/)
 - [Pandas](https://pandas.pydata.org/)
 - [Matplotlib](https://matplotlib.org/stable/index.html)
