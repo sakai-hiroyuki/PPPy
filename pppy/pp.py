@@ -1,3 +1,5 @@
+import sys
+from os import system
 import pandas as pd
 import numpy as np
 from typing import List
@@ -27,16 +29,24 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
     
     grid : bool = True
         Whether to show the grid lines.
+    
+    Examples
+    --------
+    >>> performance_profile('data.csv')
     '''
-    df : pd.DataFrame = pd.read_csv(path)
+    try:
+        df : pd.DataFrame = pd.read_csv(path)
+    except FileNotFoundError as e:
+        sys.exit(e)
+
     header : List[str] = df.columns.values.tolist()
     data : np.ndarray = df.values
 
     if np.min(data) <= 0.:
         raise ValueError('All values ​​in the data must be positive.')
     
-    num_p : int = data.shape[0]
-    num_s : int = data.shape[1]
+    num_p : int = data.shape[0]  # The number of problems.
+    num_s : int = data.shape[1]  # The number of solvers.
     r : np.ndarray = data.T / np.min(data, axis=1)
 
     info : List[dict] = header_decomposition(header)
@@ -44,10 +54,10 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
     def _pp(t: float, index: int) -> float:
         return np.count_nonzero(r[index] <= t) / num_p
     
-    pp = []
+    pp : List[List[float]] = []
     for idx in range(num_s):
-        _temp = []
-        x = np.arange(1, stop, step)
+        _temp : List[float] = []
+        x : np.ndarray = np.arange(1, stop, step)
         for val in x:
             _temp.append(_pp(val, idx))
         pp.append(_temp)

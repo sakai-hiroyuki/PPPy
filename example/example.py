@@ -1,4 +1,4 @@
 from pppy import performance_profile
 
-
-performance_profile('example/sample.csv')
+if __name__ == '__main__':
+    performance_profile('example/sample.csv')
