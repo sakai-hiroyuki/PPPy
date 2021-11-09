@@ -20,4 +20,15 @@ performance_profile('XXX.csv')
 ```
 
 ## References
-Dolan, Elizabeth D., and Jorge J. Moré. "Benchmarking optimization software with performance profiles." Mathematical programming 91.2 (2002): 201-213.
+```bibtex
+@article{dolan2002benchmarking,
+  title={Benchmarking optimization software with performance profiles},
+  author={Dolan, Elizabeth D and Mor{\'e}, Jorge J},
+  journal={Mathematical programming},
+  volume={91},
+  number={2},
+  pages={201--213},
+  year={2002},
+  publisher={Springer}
+}
+```
