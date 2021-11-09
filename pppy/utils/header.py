@@ -7,7 +7,7 @@ def header_decomposition(header: List[str]) -> List[dict]:
     Decompose the header and return the List of the dictionaries.
     The decomposition is::
 
-        string<key1=value1><key2=value2>
+        'string<key1=value1><key2=value2>'
         -> {'label': 'string', 'key1': 'value1', 'key2': 'value2'}
     
     The key of the string not in <> is 'label'.
@@ -21,17 +21,17 @@ def header_decomposition(header: List[str]) -> List[dict]:
     
     Returns
     -------
-    info : List[dict]
+    result : List[dict]
         List of the decomposed header.
 
     Examples
     --------
-    >>> h = [AAA<V=W><X=Y>,BBB<X=Z>]
-    >>> info = header_decomposition(h)
-    >>> info
+    >>> h = ['AAA<V=W><X=Y>','BBB<X=Z>']
+    >>> result = header_decomposition(h)
+    >>> result
     [{'label': 'AAA', 'V': 'W', 'X': 'Y'}, {'label': 'BBB', 'X': 'Z'}]
     '''
-    info : List[dict] = []
+    result : List[dict] = []
     for name in header:
         d : Dict[str, str] = dict()
         label = re.findall('\A[^<]+', name)[0]
@@ -41,6 +41,6 @@ def header_decomposition(header: List[str]) -> List[dict]:
             p : List[str] = re.findall('[a-z]+', param)
             d[p[0]] = p[1]
     
-        info.append(d)
+        result.append(d)
 
-    return info
+    return result
