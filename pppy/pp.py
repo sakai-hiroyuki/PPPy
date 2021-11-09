@@ -7,6 +7,27 @@ from pppy.utils import header_decomposition
 
 
 def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=None, grid: bool=True) -> None:
+    '''
+    Plot the performance profile.
+
+    Parameters
+    ----------
+    path : str
+        Input file to plot.
+    
+    stop : float = 5.0
+        Max value of the x-axis.
+
+    step : float = 1e-2
+        Spacing between values.
+    
+    tau : str = None
+        Details of tau (e.g., elapsed time).
+        If None, the x-axis label is just 'tau'.
+    
+    grid : bool = True
+        Whether to show the grid lines.
+    '''
     df : pd.DataFrame = pd.read_csv(path)
     header : List[str] = df.columns.values.tolist()
     data : np.ndarray = df.values
@@ -20,8 +41,8 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
 
     info : List[dict] = header_decomposition(header)
 
-    def _pp(tau: float, index: int) -> float:
-        return np.count_nonzero(r[index] <= tau) / num_p
+    def _pp(t: float, index: int) -> float:
+        return np.count_nonzero(r[index] <= t) / num_p
     
     pp = []
     for idx in range(num_s):
