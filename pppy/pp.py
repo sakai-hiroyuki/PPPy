@@ -28,10 +28,10 @@ def performance_profile(path: str, stop: float=5., step: float=1e-2, tau: str=No
             _temp.append(_pp(val, idx))
         pp.append(_temp)
     
-    _plot(pp, info, stop, step, tau, grid)
+    _pp_plot(pp, info, stop, step, tau, grid)
 
 
-def _plot(pp, info, stop, step, tau, grid):
+def _pp_plot(pp, info, stop, step, tau, grid):
     x = np.arange(1, stop, step)
     for idx, y in enumerate(pp):
         plt.plot(x, y, **info[idx])
